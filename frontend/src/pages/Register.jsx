@@ -1,5 +1,5 @@
 import React ,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import { Link,useNavigate } from 'react-router-dom'
 import axios from 'axios'
 const Register = () => {
   const [input, setInput] = useState({
@@ -7,14 +7,18 @@ const Register = () => {
     email:"",
     password:"",
   })
+  const [error,setError] = useState(null)
+  const navigate = useNavigate()
   const  handleChange = (e) =>{
     setInput(prev => ({...prev, [e.target.name]: e.target.value}))
   }
   const handleSubmit = async (e) =>{
     e.preventDefault()
     try {
-      const res = await axios.post("/auth/register",input)
+      await axios.post("/auth/register",input)
+      navigate('/login')
     } catch (error) {
+      setError(error.response.data)
       console.log(error);
       
     }
@@ -28,7 +32,7 @@ const Register = () => {
         <input required type="email" placeholder='Email' name='email' onChange={handleChange}/>
         <input required type="text" placeholder='Password' name='password' onChange={handleChange}/>
         <button onClick={handleSubmit}>Register</button>
-        <p>This is an error</p>
+        { error &&  <p>{error}</p>}
         <span>Do Have Account ? <Link to="/login">Login</Link></span>
 
       </form>
