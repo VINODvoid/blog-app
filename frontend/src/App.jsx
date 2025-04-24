@@ -8,7 +8,6 @@ import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import "./style.scss"
 function App() {
-
 const Layout  = () => {
   return(
     <>
